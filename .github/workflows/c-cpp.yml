@@ -22,17 +22,19 @@ jobs:
     - name: Build
       run: xmake build -v
 
-    - name: Show built files
+    - name: Show where DLL is
+      shell: cmd
       run: |
-        echo "=== Поиск DLL ==="
+        echo === Поиск всех DLL ===
         dir /s /b *.dll 2>nul || echo "DLL не найдены"
-        echo "=== Текущая директория ==="
-        cd
+        echo.
+        echo === Папка build ===
+        dir /s /b build 2>nul || echo "Папка build не найдена"
 
     - name: Upload Dumper-7.dll
       uses: actions/upload-artifact@v4
       with:
         name: Dumper-7
         path: |
-          **/Dumper-7.dll
           **/*.dll
+          build/**/*
