@@ -1,14 +1,14 @@
 name: Build Dumper-7
 
 on:
-  workflow_dispatch:     # Запуск вручную (кнопка Run workflow)
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout
       uses: actions/checkout@v4
 
     - name: Setup xmake
@@ -16,14 +16,23 @@ jobs:
       with:
         xmake-version: latest
 
-    - name: Configure (Windows x64 Release)
+    - name: Configure
       run: xmake f -p windows -a x64 -m release --yes
 
-    - name: Build Dumper-7
+    - name: Build
       run: xmake build -v
+
+    - name: Show built files
+      run: |
+        echo "=== Поиск DLL ==="
+        dir /s /b *.dll 2>nul || echo "DLL не найдены"
+        echo "=== Текущая директория ==="
+        cd
 
     - name: Upload Dumper-7.dll
       uses: actions/upload-artifact@v4
       with:
         name: Dumper-7
-        path: build/windows/x64/release/Dumper-7.dll
+        path: |
+          **/Dumper-7.dll
+          **/*.dll
