@@ -25,16 +25,11 @@ jobs:
     - name: Show where DLL is
       shell: cmd
       run: |
-        echo === Поиск всех DLL ===
-        dir /s /b *.dll 2>nul || echo "DLL не найдены"
-        echo.
-        echo === Папка build ===
-        dir /s /b build 2>nul || echo "Папка build не найдена"
+        echo === Поиск DLL ===
+        dir /s /b *.dll 2>nul || echo DLL не найдены
 
     - name: Upload Dumper-7.dll
       uses: actions/upload-artifact@v4
       with:
         name: Dumper-7
-        path: |
-          **/*.dll
-          build/**/*
+        path: Bin/Release/Dumper-7.dll
